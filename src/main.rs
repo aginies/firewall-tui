@@ -2956,8 +2956,8 @@ fn render_status_line(f: &mut Frame, app: &AppState, area: Rect) {
 }
 
 fn render_zone_list(f: &mut Frame, app: &mut AppState, area: Rect) {
-    let header = Row::new(vec!["Zone", "Default", "Active", "Interface"])
-        .style(theme::bold(theme::zones()));
+    let header =
+        Row::new(vec!["Zone", "Default", "Active", "Interface"]).style(theme::bold(theme::zones()));
 
     let rows: Vec<Row> = app
         .zones
