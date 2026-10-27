@@ -2,7 +2,8 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-APP_DIR="$SCRIPT_DIR/firewall-tui"
+# The Cargo project lives at the repo root (this script's directory).
+APP_DIR="$SCRIPT_DIR"
 
 CLEAN=0
 if [[ "${1:-}" == "clean" ]]; then
