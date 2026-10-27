@@ -2843,9 +2843,7 @@ fn render_top_bar(f: &mut Frame, app: &AppState, area: Rect) {
     let mode = match app.config_mode {
         ConfigMode::Runtime => Span::styled(
             " runtime (m) ",
-            Style::default()
-                .fg(mode_fg)
-                .bg(theme::banner_runtime_bg()),
+            Style::default().fg(mode_fg).bg(theme::banner_runtime_bg()),
         ),
         ConfigMode::Permanent => Span::styled(
             " permanent (m) ",
@@ -2958,7 +2956,7 @@ fn render_status_line(f: &mut Frame, app: &AppState, area: Rect) {
 }
 
 fn render_zone_list(f: &mut Frame, app: &mut AppState, area: Rect) {
-    let header = Row::new(vec!["Zone", "Default", "Active", "Masquerade"])
+    let header = Row::new(vec!["Zone", "Default", "Active", "Interface"])
         .style(theme::bold(theme::zones()));
 
     let rows: Vec<Row> = app
@@ -2987,11 +2985,28 @@ fn render_zone_list(f: &mut Frame, app: &mut AppState, area: Rect) {
                 )
             };
 
+            // Assigned interface(s) for this zone (loopback omitted). A dim
+            // dot means the zone has no bound interface.
+            let ifaces: Vec<&str> = zone
+                .interfaces
+                .iter()
+                .map(String::as_str)
+                .filter(|s| *s != "lo")
+                .collect();
+            let iface_cell = if ifaces.is_empty() {
+                Cell::from(Span::styled("·", theme::fg(theme::dim())))
+            } else {
+                Cell::from(Span::styled(
+                    trunc(&ifaces.join(","), 11),
+                    theme::fg(theme::muted()),
+                ))
+            };
+
             Row::new(vec![
                 Cell::from(Span::styled(zone.name.clone(), name_style)),
                 Cell::from(on(zone.is_default, "●", theme::success())),
                 Cell::from(on(zone.is_active, "●", theme::success())),
-                Cell::from(on(zone.masquerade, "✓", theme::warning())),
+                iface_cell,
             ])
             .style(Style::default().bg(zebra))
         })
@@ -3003,7 +3018,7 @@ fn render_zone_list(f: &mut Frame, app: &mut AppState, area: Rect) {
             Constraint::Length(12), // Zone
             Constraint::Length(9),  // Default
             Constraint::Length(8),  // Active
-            Constraint::Length(12), // Masquerade
+            Constraint::Length(13), // Interface
         ],
     )
     .header(header)
