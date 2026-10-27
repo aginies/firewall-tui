@@ -70,7 +70,7 @@ On first launch a short intro walks you through the keys. The layout is:
   zone, runtime/permanent mode, and a "pending reload" badge), with the
   numbered tab pills (1–5) on the row below.
 - **Left panel** — the zone list, with labeled `Default`, `Active`, and
-  `Masquerade` columns (`●` = on, `·` = off).
+  `Interface` columns (`●` = on, `·` = off).
 - **Main panel** — the active tab's contents. The Zones tab shows the selected
   zone's **topology** (what feeds it ▸ what it allows, with its description);
   other tabs: Ports, Services, Rich Rules, Port Forwarding.
@@ -162,4 +162,13 @@ cargo test --test backend_integration   # requires a live firewalld (skipped oth
 
 ## License
 
-MIT.
+Licensed under the GNU General Public License version 3 (the "GPLv3").
+
+This is free software: you can redistribute it and/or modify it under the terms
+of the GPLv3. It is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE. See the GPLv3 for more details.
+
+A copy of the GNU General Public License version 3 is included in this
+repository in the `LICENSE` file, and is also available at
+<https://www.gnu.org/licenses/>.
