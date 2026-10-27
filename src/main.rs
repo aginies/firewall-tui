@@ -574,7 +574,7 @@ fn handle_keypress(key: KeyEvent, app: &mut AppState) {
         KeyCode::Char('D') => handle_set_default(app),
         KeyCode::Char('i') => handle_assign_interface(app),
         KeyCode::Char('I') => handle_remove_interface(app),
-            KeyCode::Char('?') => app.dialog = Some(Dialog::help()),
+        KeyCode::Char('?') => app.dialog = Some(Dialog::help()),
         KeyCode::Char('A') => app.dialog = Some(Dialog::about()),
         KeyCode::Char('/') if app.tab != Tab::Zones => app.filtering = true,
         KeyCode::Char('x') => toggle_masquerade(app),
@@ -2836,17 +2836,21 @@ fn render_top_bar(f: &mut Frame, app: &AppState, area: Rect) {
         Span::styled("  ·  firewalld", theme::fg(theme::muted())),
     ]);
 
+    // The mode pill uses the primary text color (bright on dark themes, dark on
+    // light themes) rather than `on_accent`, which is near-invisible black on
+    // the dark banner backgrounds.
+    let mode_fg = theme::text();
     let mode = match app.config_mode {
         ConfigMode::Runtime => Span::styled(
             " runtime (m) ",
             Style::default()
-                .fg(theme::on_accent())
+                .fg(mode_fg)
                 .bg(theme::banner_runtime_bg()),
         ),
         ConfigMode::Permanent => Span::styled(
             " permanent (m) ",
             Style::default()
-                .fg(theme::on_accent())
+                .fg(mode_fg)
                 .bg(theme::banner_permanent_bg())
                 .add_modifier(Modifier::BOLD),
         ),
