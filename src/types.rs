@@ -933,32 +933,44 @@ impl Dialog {
         }
     }
 
-    /// Read-only about overlay: version and the GPLv3 notice required to be
-    /// conveyed under GPL v3 section 5. Points the user at the LICENSE file.
+    /// Read-only about overlay: version, author, and the GPLv3 notice required
+    /// to be conveyed under GPL v3 section 5. Points the user at the LICENSE
+    /// file. Version and author are read straight from Cargo.toml at compile
+    /// time, so they can never drift from the manifest.
     pub fn about() -> Self {
+        // Metadata read straight from Cargo.toml at compile time, so it can
+        // never drift from the manifest.
+        let version = env!("CARGO_PKG_VERSION");
+        // CARGO_PKG_AUTHORS separates multiple authors with newlines.
+        let authors = env!("CARGO_PKG_AUTHORS").replace('\n', ", ");
+        let repository = env!("CARGO_PKG_REPOSITORY");
+        let parts: &[&str] = &[
+            "Firewall TUI",
+            &format!("Version {version}"),
+            "",
+            &format!("Author: {authors}"),
+            "",
+            "A terminal UI for managing firewalld zones, ports, services,",
+            "protocols, sources, ICMP blocks, port forwards and rich rules",
+            "on Linux.",
+            "",
+            "Licensed under the GNU General Public License version 3 (the",
+            "GPLv3). This is free software; you can redistribute it and/or",
+            "modify it under the terms of the GPLv3. It is distributed",
+            "on an as-is basis, without warranty of any kind.",
+            "",
+            "A copy of the GPLv3 is in this project's LICENSE file, and is",
+            &format!("also available at: {repository}"),
+        ];
         Self {
             kind: DialogKind::About,
             title: "About".to_string(),
-            message: Some(
-                "Firewall TUI\nVersion 0.1.0\n\n\
-                 A terminal UI for managing firewalld zones, ports, services, and rules.\n\n\
-                 This program is free software: you can redistribute it and/or modify it\
-                 under the terms of the GNU General Public License as published by the\
-                 Free Software Foundation, version 3 (the \"GPLv3\").\n\n\
-                 This program is distributed in the hope that it will be useful, but\
-                 WITHOUT ANY WARRANTY; without even the implied warranty of\
-                 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GPLv3 for\
-                 more details.\n\n\
-                 A copy of the GNU General Public License version 3 is included in the\
-                 project's LICENSE file (also available at https://www.gnu.org/licenses/)."
-                    .to_string(),
-            ),
+            message: Some(parts.join("\n")),
             payload: String::new(),
             fields: Vec::new(),
             active: 0,
         }
     }
-
     pub fn help() -> Self {
         Self {
             kind: DialogKind::Help,

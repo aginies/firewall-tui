@@ -2,6 +2,8 @@
 name = "firewall-tui"
 version = "0.1.0"
 edition = "2021"
+authors = ["Antoine <antoine@ginies.org>"]
+repository = "https://github.com/aginies/firewall-tui.git"
 description = "A terminal UI for managing firewalld zones, ports, services, and rules"
 license = "GPL-3.0-only"
 
