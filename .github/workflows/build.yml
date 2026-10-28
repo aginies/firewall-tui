@@ -6,14 +6,27 @@ on:
   pull_request:
     branches: [master]
 
+env:
+  # Crate/binary name (must match `name` in Cargo.toml).
+  BINARY_NAME: firewall-tui
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
       - name: Build (release)
         run: cargo build --release --locked
+
+      - name: Verify binary
+        run: |
+          BIN="target/release/${{ env.BINARY_NAME }}"
+          test -x "$BIN" || { echo "missing $BIN"; exit 1; }
+          echo "Found expected binary: $BIN"
 
       - name: Run tests
         run: cargo test --locked
