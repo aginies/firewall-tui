@@ -9,6 +9,9 @@ the **runtime** and **permanent** configuration modes, and lets you undo the las
 change, preview the exact `firewall-cmd` for any item, and export/import zone
 config.
 
+![App Screenshot](main.png)
+
+
 ## Features
 
 - Browse and switch between firewalld zones, with zones-in-use sorted to the top.
