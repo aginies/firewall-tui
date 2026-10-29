@@ -50,14 +50,13 @@ config.
 
 ## Build & run
 
-The project is a single Rust package under `firewall-tui/`.
+The project is a single Rust package at the repository root.
 
 ```bash
 # Option A: the provided script (builds release, then launches the app)
 ./build.sh
 
 # Option B: build and run directly
-cd firewall-tui
 cargo build --release
 ./target/release/firewall-tui
 ```
@@ -158,7 +157,6 @@ simply falls back to defaults. Zone exports are written to
 ## Testing
 
 ```bash
-cd firewall-tui
 cargo test                 # unit tests (no firewalld required)
 cargo test --test backend_integration   # requires a live firewalld (skipped otherwise)
 ```
